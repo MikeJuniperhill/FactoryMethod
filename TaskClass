@@ -1,0 +1,42 @@
+import sys, json, csv
+
+# class for hosting task-related information
+# methods for creating, sending and handling calculation request are being implemented in this class
+class Task(object):
+    def __init__(self, arguments):
+        self.arguments = arguments
+        
+    # non-relevant dummy method, which just writes out given arguments
+    def print(self):
+        for k, v in self.arguments.items():
+            print(k, 'is', v)
+        
+    @classmethod
+    # factory: create task object from json file
+    def from_json(cls, path)->'Task':
+        arguments = json.load(open(path, 'r'))
+        return cls(arguments)
+    
+    @classmethod
+    # factory: create task object from text file
+    def from_text(cls, path)->'Task':
+        arguments = dict((k, v) for k, v in csv.reader(open(path, 'r')))
+        return cls(arguments)
+    
+    @classmethod
+    # factory: create task object from console input
+    def from_console(cls)->'Task':
+        arguments = json.loads(input())
+        return cls(arguments)        
+
+path = '/home/mikejuniperhill/json.feed/task.json'
+task = Task.from_json(path)
+task.print()
+
+path = '/home/mikejuniperhill/json.feed/task.txt'
+task = Task.from_text(path)
+task.print()
+
+task = Task.from_console()
+# console feed string: {"taskName":"ANZ.WHATIF.XVA","taskType":"WHATIF","referenceTask":"ANZ.XVA"}
+task.print()
